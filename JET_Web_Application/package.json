@@ -4,7 +4,8 @@
   "description": "An Oracle JavaScript Extension Toolkit(JET) web app",
   "dependencies": {
     "@oracle/oraclejet": "~17.0.0",
-    "@oracle/oraclejet-core-pack": "~17.0.0"
+    "@oracle/oraclejet-core-pack": "~17.0.0",
+    "archiver": "^7.0.1"
   },
   "devDependencies": {
     "@oracle/ojet-cli": "~17.0.0",

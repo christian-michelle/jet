@@ -5,11 +5,64 @@
  * as shown at https://oss.oracle.com/licenses/upl/
  * @ignore
  */
+import * as ko from "knockout";
+import MutableArrayDataProvider = require("ojs/ojmutablearraydataprovider");
+import "ojs/ojselectsingle";
+import "ojs/ojlabel";
 import * as AccUtils from "../accUtils";
+import "ojs/ojchart";
+import * as storeData from "text!../store_data.json";
+import "ojs/ojlistview";
+
+type ChartType = {
+  value: string;
+  label: string;
+};
+
+type Activity = {
+  id: number;
+}
+
 class DashboardViewModel {
+  chartTypes: Array<Object>;
+  chartTypesDP: MutableArrayDataProvider<ChartType["value"], ChartType>;
+  val: ko.Observable<string>;
+  chartDataProvider: MutableArrayDataProvider<string, {}>;
+  chartData: Array<Object>;
+  activityDataProvider: MutableArrayDataProvider<Activity["id"], Activity>;
 
   constructor() {
-
+    this.val = ko.observable("pie");
+    this.activityDataProvider = new MutableArrayDataProvider<
+      Activity["id"],
+      Activity
+      >(JSON.parse(storeData), {
+         keyAttributes: "id",
+      });
+    this.chartData = [
+      { "id": 0, "series": "Baseball", "group": "Group A", "value": 42 },
+      { "id": 1, "series": "Baseball", "group": "Group B", "value": 34 },
+      { "id": 2, "series": "Bicycling", "group": "Group A", "value": 55 },
+      { "id": 3, "series": "Bicycling", "group": "Group B", "value": 30 },
+      { "id": 4, "series": "Skiing", "group": "Group A", "value": 36 },
+      { "id": 5, "series": "Skiing", "group": "Group B", "value": 50 },
+      { "id": 6, "series": "Soccer", "group": "Group A", "value": 22 },
+      { "id": 7, "series": "Soccer", "group": "Group B", "value": 46 }
+    ];
+    this.chartDataProvider = new MutableArrayDataProvider(this.chartData, {
+      keyAttributes: "id",
+      });
+    this.chartTypes = [
+      { value: "pie", label: "Pie" },
+      { value: "bar", label: "Bar" },
+      ];
+   
+   this.chartTypesDP = new MutableArrayDataProvider<
+      ChartType["value"],
+      ChartType
+      >(this.chartTypes, {
+      keyAttributes: "value",
+      });
   }
 
   /**
